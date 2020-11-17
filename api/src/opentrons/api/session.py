@@ -734,7 +734,7 @@ def _get_parent_module(placeable):
 
 def _get_new_labware(loc):
     if isinstance(loc, Location):
-        return _get_new_labware(loc.labware)
+        return _get_new_labware(loc.labware.object)
     elif isinstance(loc, labware.Well):
         return loc.parent
     elif isinstance(loc, labware.Labware):
@@ -770,6 +770,8 @@ def _get_labware(command):  # noqa(C901)
             # named tuple like location descends from tuple and therefore
             # passes the check
             containers.append(get_container(location))
+        elif isinstance(location, (labware.Well, labware.Labware)):
+            containers.append(_get_new_labware(location))
         elif isinstance(location, Location):
             if location.labware.is_well:
                 containers.append(location.labware.parent.as_labware())
