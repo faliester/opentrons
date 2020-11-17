@@ -770,6 +770,8 @@ def _get_labware(command):  # noqa(C901)
             # named tuple like location descends from tuple and therefore
             # passes the check
             containers.append(get_container(location))
+        elif isinstance(location, (labware.Well, labware.Labware)):
+            containers.append(_get_new_labware(location))
         elif isinstance(location, Location):
             if location.labware.is_well:
                 containers.append(location.labware.parent.as_labware())
