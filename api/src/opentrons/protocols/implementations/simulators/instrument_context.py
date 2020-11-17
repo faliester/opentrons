@@ -77,34 +77,34 @@ class SimInstrumentContext(InstrumentContextInterface):
         return self._pipette_dict['model']
 
     def get_min_volume(self) -> float:
-        return 0
+        return self._pipette_dict['min_volume']
 
     def get_max_volume(self) -> float:
-        return 0
+        return self._pipette_dict['max_volume']
 
     def get_current_volume(self) -> float:
-        return 0
+        return self._pipette_dict['current_volume']
 
     def get_available_volume(self) -> float:
-        return 0
+        return self._pipette_dict['available_volume']
 
     def get_pipette(self) -> PipetteDict:
         return self._pipette_dict
 
     def get_channels(self) -> int:
-        return 1
+        return self._pipette_dict['channels']
 
     def has_tip(self) -> bool:
-        return True
+        return self._pipette_dict['has_tip']
 
     def is_ready_to_aspirate(self) -> bool:
-        return True
+        return self._pipette_dict['ready_to_aspirate']
 
     def prepare_for_aspirate(self) -> None:
         pass
 
     def get_return_height(self) -> float:
-        return 1
+        return self._pipette_dict['return_tip_height']
 
     def get_well_bottom_clearance(self) -> Clearances:
         return Clearances(default_aspirate=1, default_dispense=1)
