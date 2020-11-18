@@ -18,6 +18,8 @@ from opentrons.commands import tree, types as command_types
 from opentrons.commands.commands import is_new_loc, listify
 from opentrons.protocols.implementations.protocol_context import \
     ProtocolContextImplementation
+from opentrons.protocols.implementations.simulators.protocol_context import \
+    SimProtocolContext
 from opentrons.protocols.types import PythonProtocol, APIVersion
 from opentrons.protocols.parse import parse
 from opentrons.types import Location, Point
@@ -385,7 +387,7 @@ class Session(RobotBusy):
                         strict_attached_instruments=False
                         ).sync
                 sync_sim.home()
-                ctx_impl = ProtocolContextImplementation.build_using(
+                ctx_impl = SimProtocolContext.build_using(
                     self._protocol,
                     hardware=sync_sim,
                     extra_labware=getattr(self._protocol, 'extra_labware', {}))
@@ -749,7 +751,7 @@ def _get_parent_module(placeable):
 
 def _get_new_labware(loc):
     if isinstance(loc, Location):
-        return _get_new_labware(loc.labware)
+        return _get_new_labware(loc.labware.object)
     elif isinstance(loc, labware.Well):
         return loc.parent
     elif isinstance(loc, labware.Labware):
